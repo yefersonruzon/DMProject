@@ -82,10 +82,7 @@ export default function VennDiagram() {
             { name: "(A U B) - (A ∩ B)", values: [...new Set([...a, ...b])] },
             { name: "(A U C) - (A ∩ C)", values: [...new Set([...a, ...c])] },
             { name: "(B U C) - (B ∩ C)", values: [...new Set([...b, ...c])] },
-            { name: "(A U B)", values: [...new Set([...a, ...b, ...aIB])] },
-            { name: "(A U C)", values: [...new Set([...a, ...c, ...aIC])] },
-            { name: "(B U C)", values: [...new Set([...b, ...c, ...bIC])] },
-            { name: "(A U B U C)", values: [...new Set([...a, ...b, ...c])] },
+            { name: "(A U B U C)", values: [...new Set([...a, ...b, ...c, ...aIB, ...aIC, ...bIC, ...aIBIC])] },
 
         ];
 
