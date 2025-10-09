@@ -53,9 +53,14 @@ export default function VennDiagram() {
             if (tempC.includes(value)) tempBIC.push(value);
         });
 
-        tempA = tempA.filter((v) => !tempAIB.includes(v) && !tempAIC.includes(v) && !tempAIBIC.includes(v));
-        tempB = tempB.filter((v) => !tempAIB.includes(v) && !tempBIC.includes(v) && !tempAIBIC.includes(v));
-        tempC = tempC.filter((v) => !tempAIC.includes(v) && !tempBIC.includes(v) && !tempAIBIC.includes(v));
+        tempA = tempA.filter(v => !tempAIB.includes(v) && !tempAIC.includes(v) && !tempAIBIC.includes(v));
+        tempB = tempB.filter(v => !tempAIB.includes(v) && !tempBIC.includes(v) && !tempAIBIC.includes(v));
+        tempC = tempC.filter(v => !tempAIC.includes(v) && !tempBIC.includes(v) && !tempAIBIC.includes(v));
+
+        tempAIB = tempAIB.filter(v => !tempAIBIC.includes(v));
+        tempAIC = tempAIC.filter(v => !tempAIBIC.includes(v));
+        tempBIC = tempBIC.filter(v => !tempAIBIC.includes(v));
+
 
         setU(tempU.filter(v => !tempA.includes(v) && !tempB.includes(v) && !tempC.includes(v)));
         setA(tempA);
@@ -71,19 +76,12 @@ export default function VennDiagram() {
         const sets = [
             { name: "U - (A U B U C)", values: u },
             { name: "U", values: [...new Set([ ...u, ...a, ...b, ...c, ...aIB, ...aIC, ...bIC, ...aIBIC])] },
-            { name: "A - (B U C)", values: a },
-            { name: "B - (A U C)", values: b },
-            { name: "C - (A U B)", values: c },
-            { name: "(A ∩ B)", values: aIB },
-            { name: "(A ∩ C)", values: aIC },
-            { name: "(B ∩ C)", values: bIC },
             { name: "(A ∩ B ∩ C)", values: aIBIC },
-            { name: "U - (A U B U C)", values: u },
-            { name: "(A U B) - (A ∩ B)", values: [...new Set([...a, ...b])] },
-            { name: "(A U C) - (A ∩ C)", values: [...new Set([...a, ...c])] },
-            { name: "(B U C) - (B ∩ C)", values: [...new Set([...b, ...c])] },
             { name: "(A U B U C)", values: [...new Set([...a, ...b, ...c, ...aIB, ...aIC, ...bIC, ...aIBIC])] },
-
+            { name: "(A ∩ B) - (A ∩ B ∩ C)", values: aIB },
+            { name: "(A ∩ C) - (A ∩ B ∩ C)", values: aIC },
+            { name: "(B ∩ C) - (A ∩ B ∩ C)", values: bIC },
+            { name: "(A U B U C)ᶜ", values: [...new Set([...u, ...a, ...b, ...c, ...bIC, ...aIB, ...aIC])] },
         ];
 
         const randomSet = sets[Math.floor(Math.random() * sets.length)];
@@ -91,8 +89,8 @@ export default function VennDiagram() {
 
         let questionText = "";
         if (type === 0) questionText = `¿Que valores conforman el conjunto ${randomSet.name}?`;
-        else if (type === 1) questionText = `¿A que conjunto pertenecen estos valores {${randomSet.values.join(", ")}}?`;
-        else questionText = `¿Cuál conjunto contiene estos valores {${randomSet.values.join(", ")}}?`;
+        else if (type === 1) questionText = `¿A que conjunto pertenecen estos valores  {${randomSet.values.join(", ")}}?`;
+        else questionText = `¿A que conjunto pertenecen estos valores  {${randomSet.values.join(", ")}}?`;
         
         let options = [];
         let usedIndexes = new Set();
@@ -173,7 +171,7 @@ export default function VennDiagram() {
             options,
         });
         setFeedback("");
-        setquestionTime(30);
+        setquestionTime(60);
     };
 
     const handleAnswer = (option) => {
@@ -247,9 +245,9 @@ export default function VennDiagram() {
                 <p>Puntos: <span className="font-bold">{score}</span></p>
             </div>
             <div className="top-0 w-full fixed ">
-                <progress className="w-full" value={questionTime} max={30}></progress>
+                <progress className="w-full" value={questionTime} max={60}></progress>
             </div>
-            <div className="w-[95%] overflow-hidden rounded-md h-full flex items-center justify-center py-10 border border-white mt-4 relative after:content-['U'] after:absolute after:top-3.5 after:left-3 after:text-white after:text-xl">
+            <div className="w-[95%] min-h-fit overflow-hidden rounded-md h-full flex items-center justify-center py-10 border border-white mt-4 relative after:content-['U'] after:absolute after:top-3.5 after:left-3 after:text-white after:text-xl">
                 <div id="U" className="absolute top-12 left-4 text-white text-xl">{u.join(", ")}</div>
 
                 <div className="border-white border w-80 h-80 rounded-full text-white px-4 py-2 relative -translate-y-20 after:content-['A'] after:absolute after:top-10 after:-left-1 after:text-white after:text-xl">
@@ -279,7 +277,7 @@ export default function VennDiagram() {
                         <p className="text-white text-xl mb-4 text-center px-4">
                             {currentQuestion.text || "Generando pregunta..."}
                         </p>
-                        <div className="grid grid-cols-3 gap-4">
+                        <div className="grid grid-cols-3 px-10 pb-5 gap-4">
                             {currentQuestion?.options?.map((option, index) => (
                                 <button
                                     key={index}
