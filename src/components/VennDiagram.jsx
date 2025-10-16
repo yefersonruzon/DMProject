@@ -74,7 +74,6 @@ export default function VennDiagram() {
 
     const generateQuestion = () => {
         const sets = [
-            { name: "U - (A U B U C)", values: u },
             { name: "U", values: [...new Set([ ...u, ...a, ...b, ...c, ...aIB, ...aIC, ...bIC, ...aIBIC])] },
             { name: "(A ∩ B ∩ C)", values: aIBIC },
             { name: "(A U B U C)", values: [...new Set([...a, ...b, ...c, ...aIB, ...aIC, ...bIC, ...aIBIC])] },
