@@ -83,16 +83,18 @@ export default function VennDiagram() {
             { name: "(B ∩ C) - (A ∩ B ∩ C)", values: bIC },
             { name: "(A ∩ B ∩ C)ᶜ", values: [...new Set([...u, ...a, ...b, ...c, ...bIC, ...aIB, ...aIC])] },
             { name: "(A U B U C)ᶜ", values: u },
-            { name: "(A U B U C) - U", values: [] },
         ];
 
         const randomSet = sets[Math.floor(Math.random() * sets.length)];
         const type = Math.floor(Math.random() * 3);
 
+        const formatValues = (arr) => (arr.length > 0 ? arr.join(", ") : "∅");
+
+
         let questionText = "";
         if (type === 0) questionText = `¿Que valores conforman el conjunto ${randomSet.name}?`;
         else if (type === 1) questionText = `¿A que conjunto pertenecen estos valores  {${randomSet.values.join(", ")}}?`;
-        else questionText = `¿A que conjunto pertenecen estos valores  {${randomSet.values.join(", ")}}?`;
+        else questionText = `¿A qué conjunto pertenecen estos valores {${formatValues(randomSet.values)}}?`;
         
         let options = [];
         let usedIndexes = new Set();
@@ -182,7 +184,7 @@ export default function VennDiagram() {
         if (option.correct) {
             setFeedback("Correcto!!!! + 10 puntos");
             setScore(score + 10);
-            localStorage.setItem("vennScore", score - 10);
+            localStorage.setItem("vennScore", score + 10);
             newQuestionNumber = questionNumber + 1;
 
         } else {
