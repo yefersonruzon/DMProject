@@ -200,7 +200,7 @@ export default function VennDiagram() {
         setQuestionNumber(newQuestionNumber);
 
         setTimeout(() => {
-            generateQuestion();
+            generateRandomValues();
         }, 2000);
     };
 
