@@ -83,7 +83,7 @@ export default function VennDiagram() {
             { name: "(B ∩ C) - (A ∩ B ∩ C)", values: bIC },
             { name: "(A ∩ B ∩ C)ᶜ", values: [...new Set([...u, ...a, ...b, ...c, ...bIC, ...aIB, ...aIC])] },
             { name: "(A U B U C)ᶜ", values: u },
-            { name: "(A U B U C) - U", values: "{∅}" },
+            { name: "(A U B U C) - U", values: [] },
         ];
 
         const randomSet = sets[Math.floor(Math.random() * sets.length)];
